@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Surf Project</string>
-    <string name="action_settings">Settings</string>
+
+    <string name="toast_internet_not_available">Internet not available. Please connect and try again</string>
+    <string name="toast_sign_in_was_failed">Sign In was failed</string>
+
+    <string name="sign_in_button">Sign In</string>
 </resources>
