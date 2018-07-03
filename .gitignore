@@ -13,3 +13,4 @@ app/libs
 /captures
 .externalNativeBuild
 app/google-services.json
+app/src/main/gen
