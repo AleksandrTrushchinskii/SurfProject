@@ -62,7 +62,7 @@ dependencies {
     implementation "com.firebaseui:firebase-ui-auth:4.1.0"
 
     //Coroutines
-    def coroutines_version = "0.23.3"
+    def coroutines_version = "0.23.4"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
 }

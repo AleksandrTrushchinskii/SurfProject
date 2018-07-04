@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="searchViewModel"
+            type="ru.aleksandrtrushchinskii.surfproject.ui.search.SearchViewModel"/>
+
+        <variable
             name="todoAdapter"
             type="ru.aleksandrtrushchinskii.surfproject.ui.search.TodoAdapter" />
     </data>
@@ -34,7 +38,8 @@
             android:layout_marginRight="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_plus" />
+            app:srcCompat="@drawable/ic_plus"
+            android:onClick="@{() -> searchViewModel.startCreating()}"/>
 
     </android.support.constraint.ConstraintLayout>
 </layout>

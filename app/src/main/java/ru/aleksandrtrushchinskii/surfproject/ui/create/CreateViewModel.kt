@@ -7,7 +7,8 @@ import kotlinx.coroutines.experimental.launch
 import ru.aleksandrtrushchinskii.surfproject.common.service.Authentication
 import ru.aleksandrtrushchinskii.surfproject.model.entity.Todo
 import ru.aleksandrtrushchinskii.surfproject.model.repository.TodoRepository
-import ru.aleksandrtrushchinskii.surfproject.ui.Navigation
+import ru.aleksandrtrushchinskii.surfproject.ui.component.LoadingState
+import ru.aleksandrtrushchinskii.surfproject.ui.component.Navigation
 
 
 class CreateViewModel(
@@ -21,8 +22,15 @@ class CreateViewModel(
 
 
     fun create() = launch(UI) {
+        LoadingState.start()
+
         repository.create(todo.value!!.apply { userId = auth.uid }).join()
+
+        todo.value = Todo()
+
         Navigation.finishCurrentFragment()
+
+        LoadingState.stop()
     }
 
 }

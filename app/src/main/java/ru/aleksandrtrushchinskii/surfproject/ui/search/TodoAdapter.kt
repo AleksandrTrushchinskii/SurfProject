@@ -5,7 +5,7 @@ import android.widget.Toast
 import ru.aleksandrtrushchinskii.surfproject.BR
 import ru.aleksandrtrushchinskii.surfproject.R
 import ru.aleksandrtrushchinskii.surfproject.model.entity.Todo
-import ru.aleksandrtrushchinskii.surfproject.ui.ViewModelAdapter
+import ru.aleksandrtrushchinskii.surfproject.ui.component.ViewModelAdapter
 
 
 object TodoAdapter : ViewModelAdapter() {

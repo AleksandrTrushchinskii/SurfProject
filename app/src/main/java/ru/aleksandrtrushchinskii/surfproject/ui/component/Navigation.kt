@@ -1,6 +1,7 @@
-package ru.aleksandrtrushchinskii.surfproject.ui
+package ru.aleksandrtrushchinskii.surfproject.ui.component
 
 import ru.aleksandrtrushchinskii.surfproject.R
+import ru.aleksandrtrushchinskii.surfproject.ui.MainActivity
 import ru.aleksandrtrushchinskii.surfproject.ui.create.CreateFragment
 import ru.aleksandrtrushchinskii.surfproject.ui.search.SearchFragment
 import ru.aleksandrtrushchinskii.surfproject.ui.signin.SignInFragment
@@ -13,23 +14,11 @@ object Navigation {
 
 
     fun init(activity: MainActivity) {
-        this.activity = activity
+        Navigation.activity = activity
     }
 
     fun clear() {
         activity = null
-    }
-
-    fun startSignIn() {
-        activity ?: return
-
-        startFragment(SignInFragment::class.java.simpleName)
-    }
-
-    fun startSearch() {
-        activity ?: return
-
-        startFragment(CreateFragment::class.java.simpleName)
     }
 
     fun start() {
@@ -46,11 +35,11 @@ object Navigation {
         when (currentFragment) {
             SignInFragment::class.java.simpleName -> startFragment(SearchFragment::class.java.simpleName)
             CreateFragment::class.java.simpleName -> startFragment(SearchFragment::class.java.simpleName)
-            else -> throw RuntimeException("Unknown fragment finish : ${currentFragment}")
+            else -> throw RuntimeException("Unknown fragment finish : $currentFragment")
         }
     }
 
-    private fun startFragment(fragmentClassName: String) {
+    fun startFragment(fragmentClassName: String) {
         activity ?: return
 
         currentFragment = fragmentClassName

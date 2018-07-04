@@ -1,4 +1,4 @@
-package ru.aleksandrtrushchinskii.surfproject.ui
+package ru.aleksandrtrushchinskii.surfproject.ui.component
 
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding

@@ -9,7 +9,7 @@ import dagger.android.support.DaggerFragment
 import ru.aleksandrtrushchinskii.surfproject.R
 import ru.aleksandrtrushchinskii.surfproject.common.tools.inflateBinding
 import ru.aleksandrtrushchinskii.surfproject.databinding.CreateFragmentBinding
-import ru.aleksandrtrushchinskii.surfproject.ui.ViewModelFactory
+import ru.aleksandrtrushchinskii.surfproject.ui.component.ViewModelFactory
 import javax.inject.Inject
 
 

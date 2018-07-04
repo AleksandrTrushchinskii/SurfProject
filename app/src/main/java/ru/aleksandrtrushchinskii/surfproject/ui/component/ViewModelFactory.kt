@@ -1,4 +1,4 @@
-package ru.aleksandrtrushchinskii.surfproject.ui
+package ru.aleksandrtrushchinskii.surfproject.ui.component
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider

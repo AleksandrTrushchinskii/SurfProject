@@ -10,7 +10,7 @@ import ru.aleksandrtrushchinskii.surfproject.common.service.Internet
 import ru.aleksandrtrushchinskii.surfproject.common.service.Toaster
 import ru.aleksandrtrushchinskii.surfproject.model.database.TodoDatabase
 import ru.aleksandrtrushchinskii.surfproject.model.repository.TodoRepository
-import ru.aleksandrtrushchinskii.surfproject.ui.ViewModelFactory
+import ru.aleksandrtrushchinskii.surfproject.ui.component.ViewModelFactory
 import javax.inject.Singleton
 
 
