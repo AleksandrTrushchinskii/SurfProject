@@ -4,5 +4,12 @@
     <string name="toast_internet_not_available">Internet not available. Please connect and try again</string>
     <string name="toast_sign_in_was_failed">Sign In was failed</string>
 
+    <string name="empty" />
+
     <string name="sign_in_button">Sign In</string>
+
+    <string name="create_todo_label">Create Todo</string>
+    <string name="create_todo_title">Title</string>
+    <string name="create_todo_description">Description</string>
+    <string name="create_todo_button">Create</string>
 </resources>

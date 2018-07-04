@@ -13,8 +13,8 @@ import ru.aleksandrtrushchinskii.surfproject.R
 import ru.aleksandrtrushchinskii.surfproject.common.service.Internet
 import ru.aleksandrtrushchinskii.surfproject.common.service.Toaster
 import ru.aleksandrtrushchinskii.surfproject.common.tools.RC_SIGN_IN
-import ru.aleksandrtrushchinskii.surfproject.common.tools.finish
 import ru.aleksandrtrushchinskii.surfproject.common.tools.inflate
+import ru.aleksandrtrushchinskii.surfproject.ui.Navigation
 import javax.inject.Inject
 
 
@@ -52,11 +52,11 @@ class SignInFragment : DaggerFragment() {
 
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == Activity.RESULT_OK) {
-                finish()
+                Navigation.finishCurrentFragment()
             } else {
                 toaster.signInWasFailed()
             }
         }
     }
-    
+
 }

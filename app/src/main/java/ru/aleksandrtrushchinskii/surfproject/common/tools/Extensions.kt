@@ -1,29 +1,34 @@
 package ru.aleksandrtrushchinskii.surfproject.common.tools
 
+import android.databinding.DataBindingUtil
+import android.databinding.ViewDataBinding
 import android.support.annotation.LayoutRes
-import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ru.aleksandrtrushchinskii.surfproject.ui.MainActivity
 
 
 fun ViewGroup?.inflate(@LayoutRes layoutId: Int): View {
     return LayoutInflater.from(this?.context).inflate(layoutId, this, false)
 }
 
-fun View.visible(){
+fun <T : ViewDataBinding> ViewGroup?.inflateBinding(@LayoutRes layoutId: Int, attachToRoot: Boolean = false): T {
+    return DataBindingUtil.inflate(LayoutInflater.from(this!!.context), layoutId, this, attachToRoot)
+}
+
+fun View.visible() {
     this.visibility = View.VISIBLE
 }
 
-fun View.invisible(){
+fun View.invisible() {
     this.visibility = View.INVISIBLE
 }
 
-fun Fragment.finish() {
-    (this.activity as MainActivity).finishFragment(this)
+fun Any.logDebug(message: String) {
+    Log.d(this::class.java.simpleName, message)
 }
 
-fun Fragment.startAnotherFragment(fragmentClassName: String) {
-    (this.activity as MainActivity).startFragment(fragmentClassName)
+fun Any.logError(message: String) {
+    Log.e(this::class.java.simpleName, message)
 }

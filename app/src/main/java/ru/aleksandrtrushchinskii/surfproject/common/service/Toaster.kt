@@ -4,10 +4,9 @@ import android.content.Context
 import android.support.annotation.StringRes
 import android.widget.Toast
 import ru.aleksandrtrushchinskii.surfproject.R
-import javax.inject.Inject
 
 
-class Toaster @Inject constructor(private val context: Context) {
+class Toaster(private val context: Context) {
 
     var toast: Toast? = null
 
@@ -16,7 +15,7 @@ class Toaster @Inject constructor(private val context: Context) {
         showToast(R.string.toast_internet_not_available)
     }
 
-    fun signInWasFailed(){
+    fun signInWasFailed() {
         showToast(R.string.toast_sign_in_was_failed)
     }
 
