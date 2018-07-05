@@ -32,6 +32,8 @@ object Navigation {
     fun finishCurrentFragment() {
         activity ?: return
 
+        LoadingState.start()
+
         when (currentFragment) {
             SignInFragment::class.java.simpleName -> startFragment(SearchFragment::class.java.simpleName)
             CreateFragment::class.java.simpleName -> startFragment(SearchFragment::class.java.simpleName)
@@ -42,8 +44,6 @@ object Navigation {
     fun startFragment(fragmentClassName: String) {
         activity ?: return
 
-        currentFragment = fragmentClassName
-
         when (fragmentClassName) {
             SignInFragment::class.java.simpleName -> {
                 activity!!.supportFragmentManager.beginTransaction()
@@ -51,10 +51,13 @@ object Navigation {
                         .commit()
             }
             CreateFragment::class.java.simpleName -> {
-                activity!!.supportFragmentManager.beginTransaction()
-                        .replace(R.id.container, CreateFragment())
-                        .addToBackStack(null)
-                        .commit()
+                with(activity!!.supportFragmentManager) {
+                    popBackStack()
+                    beginTransaction()
+                            .replace(R.id.container, CreateFragment())
+                            .addToBackStack(null)
+                            .commit()
+                }
             }
             SearchFragment::class.java.simpleName -> {
                 activity!!.supportFragmentManager.beginTransaction()
@@ -63,6 +66,8 @@ object Navigation {
             }
             else -> throw RuntimeException("Unknown fragment start : $fragmentClassName")
         }
+
+        currentFragment = fragmentClassName
     }
 
 }

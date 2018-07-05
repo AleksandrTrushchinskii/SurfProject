@@ -14,6 +14,7 @@ import ru.aleksandrtrushchinskii.surfproject.common.service.Internet
 import ru.aleksandrtrushchinskii.surfproject.common.service.Toaster
 import ru.aleksandrtrushchinskii.surfproject.common.tools.RC_SIGN_IN
 import ru.aleksandrtrushchinskii.surfproject.common.tools.inflate
+import ru.aleksandrtrushchinskii.surfproject.ui.component.LoadingState
 import ru.aleksandrtrushchinskii.surfproject.ui.component.Navigation
 import javax.inject.Inject
 
@@ -33,6 +34,8 @@ class SignInFragment : DaggerFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        LoadingState.stop()
 
         signInButton.setOnClickListener {
             internet.ifAvailable {

@@ -22,7 +22,7 @@ class TodoDatabase(firestore: FirebaseFirestore) {
     }
 
     suspend fun load() = suspendCoroutine<List<Todo>> { continuation ->
-        db.get().addOnSuccessListener {
+        db.orderBy("createdDate").get().addOnSuccessListener {
             val todos = arrayListOf<Todo>()
 
             it.documents.forEach {

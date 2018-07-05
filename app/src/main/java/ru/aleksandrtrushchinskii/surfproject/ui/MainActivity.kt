@@ -34,7 +34,6 @@ class MainActivity : DaggerAppCompatActivity() {
         if (auth.isAuth) {
             Navigation.start()
         } else {
-            LoadingState.stop()
             Navigation.startFragment(SignInFragment::class.java.simpleName)
         }
     }
