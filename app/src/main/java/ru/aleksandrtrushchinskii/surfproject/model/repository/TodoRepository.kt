@@ -13,8 +13,11 @@ class TodoRepository(private val database: TodoDatabase, appCache: AppCache) {
 
 
     fun create(todo: Todo) = launch {
-        //todo implement creating todo in cache
-        database.create(todo)
+        val id = database.create(todo)
+
+        val newTodo = database.get(id)
+
+        launch { cache.insert(newTodo) }.join()
     }
 
     fun load() = async {
@@ -24,9 +27,8 @@ class TodoRepository(private val database: TodoDatabase, appCache: AppCache) {
 
         if (todos.isEmpty()) {
             todos += database.load()
-            launch {
-                cache.insertAll(todos)
-            }
+
+            cache.insertAll(todos)
         }
 
         todos

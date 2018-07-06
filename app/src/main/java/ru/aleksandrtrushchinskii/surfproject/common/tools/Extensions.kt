@@ -7,6 +7,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.firebase.firestore.DocumentSnapshot
+import ru.aleksandrtrushchinskii.surfproject.model.entity.Todo
 
 
 fun ViewGroup?.inflate(@LayoutRes layoutId: Int): View {
@@ -31,4 +33,16 @@ fun Any.logDebug(message: String) {
 
 fun Any.logError(message: String) {
     Log.e(this::class.java.simpleName, message)
+}
+
+fun DocumentSnapshot.toTodo(): Todo {
+    val todo = this.toObject(Todo::class.java)
+
+    if (todo != null) {
+        todo.id = this.id
+
+        return todo
+    } else {
+        return Todo()
+    }
 }
