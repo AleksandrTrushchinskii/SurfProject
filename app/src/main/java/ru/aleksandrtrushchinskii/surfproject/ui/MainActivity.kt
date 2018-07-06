@@ -8,7 +8,7 @@ import ru.aleksandrtrushchinskii.surfproject.common.service.Authentication
 import ru.aleksandrtrushchinskii.surfproject.databinding.MainActivityBinding
 import ru.aleksandrtrushchinskii.surfproject.ui.component.LoadingState
 import ru.aleksandrtrushchinskii.surfproject.ui.component.Navigation
-import ru.aleksandrtrushchinskii.surfproject.ui.signin.SignInFragment
+import ru.aleksandrtrushchinskii.surfproject.ui.fragment.SignInFragment
 import javax.inject.Inject
 
 

@@ -1,12 +1,13 @@
-package ru.aleksandrtrushchinskii.surfproject.ui.search
+package ru.aleksandrtrushchinskii.surfproject.ui.viewmodel
 
 import android.arch.lifecycle.ViewModel
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import ru.aleksandrtrushchinskii.surfproject.model.repository.TodoRepository
+import ru.aleksandrtrushchinskii.surfproject.ui.adapter.TodoAdapter
 import ru.aleksandrtrushchinskii.surfproject.ui.component.LoadingState
 import ru.aleksandrtrushchinskii.surfproject.ui.component.Navigation
-import ru.aleksandrtrushchinskii.surfproject.ui.create.CreateFragment
+import ru.aleksandrtrushchinskii.surfproject.ui.fragment.CreateFragment
 
 
 class SearchViewModel(private val repository: TodoRepository) : ViewModel() {
@@ -16,7 +17,7 @@ class SearchViewModel(private val repository: TodoRepository) : ViewModel() {
         LoadingState.stop()
     }
 
-    fun startCreating(){
+    fun startCreating() {
         Navigation.startFragment(CreateFragment::class.java.simpleName)
     }
 

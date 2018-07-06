@@ -7,17 +7,17 @@
 
         <variable
             name="searchViewModel"
-            type="ru.aleksandrtrushchinskii.surfproject.ui.search.SearchViewModel"/>
+            type="ru.aleksandrtrushchinskii.surfproject.ui.viewmodel.SearchViewModel" />
 
         <variable
             name="todoAdapter"
-            type="ru.aleksandrtrushchinskii.surfproject.ui.search.TodoAdapter" />
+            type="ru.aleksandrtrushchinskii.surfproject.ui.adapter.TodoAdapter" />
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.search.SearchFragment">
+        tools:context=".ui.fragment.SearchFragment">
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
@@ -36,10 +36,10 @@
             android:layout_marginBottom="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
+            android:onClick="@{() -> searchViewModel.startCreating()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_plus"
-            android:onClick="@{() -> searchViewModel.startCreating()}"/>
+            app:srcCompat="@drawable/ic_plus" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

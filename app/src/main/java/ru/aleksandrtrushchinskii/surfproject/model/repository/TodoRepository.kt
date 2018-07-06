@@ -20,6 +20,11 @@ class TodoRepository(private val database: TodoDatabase, appCache: AppCache) {
         launch { cache.insert(newTodo) }.join()
     }
 
+    fun update(todo: Todo) = launch {
+        database.update(todo)
+        cache.update(todo)
+    }
+
     fun load() = async {
         var todos = listOf<Todo>()
 
@@ -32,6 +37,10 @@ class TodoRepository(private val database: TodoDatabase, appCache: AppCache) {
         }
 
         todos
+    }
+
+    fun get(id: String) = async {
+        cache.get(id)
     }
 
 }

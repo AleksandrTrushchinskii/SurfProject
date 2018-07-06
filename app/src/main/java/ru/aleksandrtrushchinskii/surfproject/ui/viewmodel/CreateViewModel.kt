@@ -1,4 +1,4 @@
-package ru.aleksandrtrushchinskii.surfproject.ui.create
+package ru.aleksandrtrushchinskii.surfproject.ui.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel

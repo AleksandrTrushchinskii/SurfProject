@@ -1,4 +1,4 @@
-package ru.aleksandrtrushchinskii.surfproject.ui.signin
+package ru.aleksandrtrushchinskii.surfproject.ui.fragment
 
 import android.app.Activity
 import android.content.Intent

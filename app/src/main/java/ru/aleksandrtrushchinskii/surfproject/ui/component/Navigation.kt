@@ -1,10 +1,12 @@
 package ru.aleksandrtrushchinskii.surfproject.ui.component
 
+import android.os.Bundle
 import ru.aleksandrtrushchinskii.surfproject.R
 import ru.aleksandrtrushchinskii.surfproject.ui.MainActivity
-import ru.aleksandrtrushchinskii.surfproject.ui.create.CreateFragment
-import ru.aleksandrtrushchinskii.surfproject.ui.search.SearchFragment
-import ru.aleksandrtrushchinskii.surfproject.ui.signin.SignInFragment
+import ru.aleksandrtrushchinskii.surfproject.ui.fragment.CreateFragment
+import ru.aleksandrtrushchinskii.surfproject.ui.fragment.EditFragment
+import ru.aleksandrtrushchinskii.surfproject.ui.fragment.SearchFragment
+import ru.aleksandrtrushchinskii.surfproject.ui.fragment.SignInFragment
 
 
 object Navigation {
@@ -37,11 +39,12 @@ object Navigation {
         when (currentFragment) {
             SignInFragment::class.java.simpleName -> startFragment(SearchFragment::class.java.simpleName)
             CreateFragment::class.java.simpleName -> startFragment(SearchFragment::class.java.simpleName)
+            EditFragment::class.java.simpleName -> startFragment(SearchFragment::class.java.simpleName)
             else -> throw RuntimeException("Unknown fragment finish : $currentFragment")
         }
     }
 
-    fun startFragment(fragmentClassName: String) {
+    fun startFragment(fragmentClassName: String, bundle: Bundle? = null) {
         activity ?: return
 
         when (fragmentClassName) {
@@ -63,6 +66,19 @@ object Navigation {
                 activity!!.supportFragmentManager.beginTransaction()
                         .replace(R.id.container, SearchFragment())
                         .commit()
+            }
+            EditFragment::class.java.simpleName -> {
+                val editFragment = EditFragment().apply {
+                    arguments = bundle
+                }
+
+                with(activity!!.supportFragmentManager) {
+                    popBackStack()
+                    beginTransaction()
+                            .replace(R.id.container, editFragment)
+                            .addToBackStack(null)
+                            .commit()
+                }
             }
             else -> throw RuntimeException("Unknown fragment start : $fragmentClassName")
         }

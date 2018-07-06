@@ -1,4 +1,4 @@
-package ru.aleksandrtrushchinskii.surfproject.ui.search
+package ru.aleksandrtrushchinskii.surfproject.ui.fragment
 
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -9,7 +9,9 @@ import dagger.android.support.DaggerFragment
 import ru.aleksandrtrushchinskii.surfproject.R
 import ru.aleksandrtrushchinskii.surfproject.common.tools.inflateBinding
 import ru.aleksandrtrushchinskii.surfproject.databinding.SearchFragmentBinding
+import ru.aleksandrtrushchinskii.surfproject.ui.adapter.TodoAdapter
 import ru.aleksandrtrushchinskii.surfproject.ui.component.ViewModelFactory
+import ru.aleksandrtrushchinskii.surfproject.ui.viewmodel.SearchViewModel
 import javax.inject.Inject
 
 

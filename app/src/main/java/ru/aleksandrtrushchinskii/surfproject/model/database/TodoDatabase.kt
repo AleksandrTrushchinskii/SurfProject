@@ -22,6 +22,15 @@ class TodoDatabase(firestore: FirebaseFirestore) {
         }
     }
 
+    suspend fun update(todo: Todo) = suspendCoroutine<Unit> { continuation ->
+        db.document(todo.id).set(todo).addOnSuccessListener {
+            logDebug("Todo was updated with id ${todo.id} : $todo")
+            continuation.resume(Unit)
+        }.addOnFailureListener {
+            logError(it.toString())
+        }
+    }
+
     suspend fun load() = suspendCoroutine<List<Todo>> { continuation ->
         db.orderBy("createdDate").get().addOnSuccessListener {
             val todos = arrayListOf<Todo>()

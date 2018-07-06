@@ -6,7 +6,7 @@
 
         <variable
             name="createViewModel"
-            type="ru.aleksandrtrushchinskii.surfproject.ui.create.CreateViewModel" />
+            type="ru.aleksandrtrushchinskii.surfproject.ui.viewmodel.CreateViewModel" />
 
     </data>
 

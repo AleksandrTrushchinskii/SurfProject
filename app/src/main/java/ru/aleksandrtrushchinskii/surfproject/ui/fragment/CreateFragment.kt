@@ -1,4 +1,4 @@
-package ru.aleksandrtrushchinskii.surfproject.ui.create
+package ru.aleksandrtrushchinskii.surfproject.ui.fragment
 
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -11,6 +11,7 @@ import ru.aleksandrtrushchinskii.surfproject.common.tools.inflateBinding
 import ru.aleksandrtrushchinskii.surfproject.databinding.CreateFragmentBinding
 import ru.aleksandrtrushchinskii.surfproject.ui.component.LoadingState
 import ru.aleksandrtrushchinskii.surfproject.ui.component.ViewModelFactory
+import ru.aleksandrtrushchinskii.surfproject.ui.viewmodel.CreateViewModel
 import javax.inject.Inject
 
 

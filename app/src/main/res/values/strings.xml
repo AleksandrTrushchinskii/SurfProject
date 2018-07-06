@@ -12,4 +12,6 @@
     <string name="create_todo_title">Title</string>
     <string name="create_todo_description">Description</string>
     <string name="create_todo_button">Create</string>
+
+    <string name="edit_todo_button">Edit</string>
 </resources>

@@ -10,7 +10,7 @@
 
         <variable
             name="todoAdapter"
-            type="ru.aleksandrtrushchinskii.surfproject.ui.search.TodoAdapter" />
+            type="ru.aleksandrtrushchinskii.surfproject.ui.adapter.TodoAdapter" />
     </data>
 
     <FrameLayout
