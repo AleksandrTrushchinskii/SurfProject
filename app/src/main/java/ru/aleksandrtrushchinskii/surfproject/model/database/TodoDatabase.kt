@@ -1,6 +1,7 @@
 package ru.aleksandrtrushchinskii.surfproject.model.database
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import ru.aleksandrtrushchinskii.surfproject.common.service.Authentication
 import ru.aleksandrtrushchinskii.surfproject.common.tools.logDebug
 import ru.aleksandrtrushchinskii.surfproject.common.tools.logError
@@ -37,7 +38,7 @@ class TodoDatabase(
 
     suspend fun load() = suspendCoroutine<List<Todo>> { continuation ->
         db.whereEqualTo("userId", auth.uid)
-                .orderBy("createdDate")
+                .orderBy("createdDate", Query.Direction.DESCENDING)
                 .get().addOnSuccessListener {
                     val todos = arrayListOf<Todo>()
 
@@ -62,6 +63,15 @@ class TodoDatabase(
             continuation.resume(todo)
         }.addOnFailureListener {
             logError("Todo getting was failed : $it")
+        }
+    }
+
+    suspend fun delete(id: String) = suspendCoroutine<Unit> { continuation ->
+        db.document(id).delete().addOnSuccessListener {
+            logError("Todo was delete : $id")
+            continuation.resume(Unit)
+        }.addOnFailureListener {
+            logError("Todo deleting was failed : $it")
         }
     }
 

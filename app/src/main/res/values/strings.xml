@@ -14,4 +14,7 @@
     <string name="create_todo_button">Create</string>
 
     <string name="edit_todo_button">Edit</string>
+
+    <string name="read_edit_todo">Edit</string>
+    <string name="read_delete_todo">Delete</string>
 </resources>

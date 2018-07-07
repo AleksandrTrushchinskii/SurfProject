@@ -9,7 +9,7 @@ import ru.aleksandrtrushchinskii.surfproject.model.entity.Todo
 import ru.aleksandrtrushchinskii.surfproject.ui.component.LoadingState
 import ru.aleksandrtrushchinskii.surfproject.ui.component.Navigation
 import ru.aleksandrtrushchinskii.surfproject.ui.component.ViewModelAdapter
-import ru.aleksandrtrushchinskii.surfproject.ui.fragment.EditFragment
+import ru.aleksandrtrushchinskii.surfproject.ui.fragment.ReadFragment
 
 
 object TodoAdapter : ViewModelAdapter() {
@@ -39,7 +39,7 @@ object TodoAdapter : ViewModelAdapter() {
         LoadingState.start()
 
         val bundle = Bundle().apply { putString(TODO_ID_KEY, todo.id) }
-        Navigation.startFragment(EditFragment::class.java.simpleName, bundle)
+        Navigation.startFragment(ReadFragment::class.java.simpleName, bundle)
     }
 
 }

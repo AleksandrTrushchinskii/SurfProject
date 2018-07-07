@@ -9,6 +9,7 @@ import ru.aleksandrtrushchinskii.surfproject.model.repository.TodoRepository
 import ru.aleksandrtrushchinskii.surfproject.ui.adapter.TodoAdapter
 import ru.aleksandrtrushchinskii.surfproject.ui.component.LoadingState
 import ru.aleksandrtrushchinskii.surfproject.ui.component.Navigation
+import ru.aleksandrtrushchinskii.surfproject.ui.fragment.EditFragment
 
 
 class TodoViewModel(private val repository: TodoRepository) : ViewModel() {
@@ -19,6 +20,22 @@ class TodoViewModel(private val repository: TodoRepository) : ViewModel() {
     fun setTodo(id: String) {
         launch(UI) {
             todo.value = repository.get(id).await()
+
+            LoadingState.stop()
+        }
+    }
+
+    fun startEditing() {
+        Navigation.startFragment(EditFragment::class.java.simpleName)
+    }
+
+    fun delete() {
+        launch(UI) {
+            LoadingState.start()
+
+            repository.delete(todo.value!!).join()
+
+            Navigation.finishCurrentFragment()
 
             LoadingState.stop()
         }

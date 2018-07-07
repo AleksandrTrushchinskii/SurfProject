@@ -3,10 +3,7 @@ package ru.aleksandrtrushchinskii.surfproject.ui.component
 import android.os.Bundle
 import ru.aleksandrtrushchinskii.surfproject.R
 import ru.aleksandrtrushchinskii.surfproject.ui.MainActivity
-import ru.aleksandrtrushchinskii.surfproject.ui.fragment.CreateFragment
-import ru.aleksandrtrushchinskii.surfproject.ui.fragment.EditFragment
-import ru.aleksandrtrushchinskii.surfproject.ui.fragment.SearchFragment
-import ru.aleksandrtrushchinskii.surfproject.ui.fragment.SignInFragment
+import ru.aleksandrtrushchinskii.surfproject.ui.fragment.*
 
 
 object Navigation {
@@ -39,7 +36,8 @@ object Navigation {
         when (currentFragment) {
             SignInFragment::class.java.simpleName -> startFragment(SearchFragment::class.java.simpleName)
             CreateFragment::class.java.simpleName -> startFragment(SearchFragment::class.java.simpleName)
-            EditFragment::class.java.simpleName -> startFragment(SearchFragment::class.java.simpleName)
+            EditFragment::class.java.simpleName -> startFragment(ReadFragment::class.java.simpleName)
+            ReadFragment::class.java.simpleName -> startFragment(SearchFragment::class.java.simpleName)
             else -> throw RuntimeException("Unknown fragment finish : $currentFragment")
         }
     }
@@ -67,15 +65,24 @@ object Navigation {
                         .replace(R.id.container, SearchFragment())
                         .commit()
             }
-            EditFragment::class.java.simpleName -> {
-                val editFragment = EditFragment().apply {
+            ReadFragment::class.java.simpleName -> {
+                val readFragment = ReadFragment().apply {
                     arguments = bundle
                 }
 
                 with(activity!!.supportFragmentManager) {
                     popBackStack()
                     beginTransaction()
-                            .replace(R.id.container, editFragment)
+                            .replace(R.id.container, readFragment)
+                            .addToBackStack(null)
+                            .commit()
+                }
+            }
+            EditFragment::class.java.simpleName -> {
+                with(activity!!.supportFragmentManager) {
+                    popBackStack()
+                    beginTransaction()
+                            .replace(R.id.container, EditFragment())
                             .addToBackStack(null)
                             .commit()
                 }

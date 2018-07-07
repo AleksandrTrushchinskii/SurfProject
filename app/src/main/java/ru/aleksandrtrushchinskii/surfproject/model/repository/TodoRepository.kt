@@ -17,7 +17,7 @@ class TodoRepository(private val database: TodoDatabase, appCache: AppCache) {
 
         val newTodo = database.get(id)
 
-        launch { cache.insert(newTodo) }.join()
+        cache.insert(newTodo)
     }
 
     fun update(todo: Todo) = launch {
@@ -41,6 +41,11 @@ class TodoRepository(private val database: TodoDatabase, appCache: AppCache) {
 
     fun get(id: String) = async {
         cache.get(id)
+    }
+
+    fun delete(todo: Todo) = launch {
+        database.delete(todo.id)
+        cache.delete(todo)
     }
 
 }
