@@ -33,7 +33,10 @@ class SingletonsModule {
 
     @Provides
     @Singleton
-    fun provideTodoDatabase(firestore: FirebaseFirestore) = TodoDatabase(firestore)
+    fun provideTodoDatabase(
+            firestore: FirebaseFirestore,
+            auth: Authentication
+    ) = TodoDatabase(firestore, auth)
 
     @Provides
     @Singleton

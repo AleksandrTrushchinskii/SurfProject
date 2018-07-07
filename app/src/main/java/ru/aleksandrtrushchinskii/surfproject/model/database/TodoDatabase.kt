@@ -1,6 +1,7 @@
 package ru.aleksandrtrushchinskii.surfproject.model.database
 
 import com.google.firebase.firestore.FirebaseFirestore
+import ru.aleksandrtrushchinskii.surfproject.common.service.Authentication
 import ru.aleksandrtrushchinskii.surfproject.common.tools.logDebug
 import ru.aleksandrtrushchinskii.surfproject.common.tools.logError
 import ru.aleksandrtrushchinskii.surfproject.common.tools.toTodo
@@ -8,7 +9,10 @@ import ru.aleksandrtrushchinskii.surfproject.model.entity.Todo
 import kotlin.coroutines.experimental.suspendCoroutine
 
 
-class TodoDatabase(firestore: FirebaseFirestore) {
+class TodoDatabase(
+        firestore: FirebaseFirestore,
+        private val auth: Authentication
+) {
 
     private val db = firestore.collection("todos")
 
@@ -18,7 +22,7 @@ class TodoDatabase(firestore: FirebaseFirestore) {
             logDebug("Todo was created with id ${it.id} : $todo")
             continuation.resume(it.id)
         }.addOnFailureListener {
-            logError(it.toString())
+            logError("Todo creating was failed : $it")
         }
     }
 
@@ -27,24 +31,26 @@ class TodoDatabase(firestore: FirebaseFirestore) {
             logDebug("Todo was updated with id ${todo.id} : $todo")
             continuation.resume(Unit)
         }.addOnFailureListener {
-            logError(it.toString())
+            logError("Todo updating was failed : $it")
         }
     }
 
     suspend fun load() = suspendCoroutine<List<Todo>> { continuation ->
-        db.orderBy("createdDate").get().addOnSuccessListener {
-            val todos = arrayListOf<Todo>()
+        db.whereEqualTo("userId", auth.uid)
+                .orderBy("createdDate")
+                .get().addOnSuccessListener {
+                    val todos = arrayListOf<Todo>()
 
-            it.documents.forEach {
-                todos.add(it.toTodo())
-            }
+                    it.documents.forEach {
+                        todos.add(it.toTodo())
+                    }
 
-            logDebug("Loaded todos : $todos")
+                    logDebug("Loaded todos : $todos")
 
-            continuation.resume(todos)
-        }.addOnFailureListener {
-            logError("Todos loading was failed")
-        }
+                    continuation.resume(todos)
+                }.addOnFailureListener {
+                    logError("Todo loading was failed : $it")
+                }
     }
 
     suspend fun get(id: String) = suspendCoroutine<Todo> { continuation ->
@@ -55,7 +61,7 @@ class TodoDatabase(firestore: FirebaseFirestore) {
 
             continuation.resume(todo)
         }.addOnFailureListener {
-            logError("Todos loading was failed")
+            logError("Todo getting was failed : $it")
         }
     }
 
