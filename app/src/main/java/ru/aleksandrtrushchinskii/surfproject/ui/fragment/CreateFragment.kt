@@ -43,12 +43,32 @@ class CreateFragment : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (viewModel.todo.value?.notification != null) {
+            val c = Calendar.getInstance()
+
+            c.time = viewModel.todo.value?.notification
+
+            val year = c.get(Calendar.YEAR)
+            val month = c.get(Calendar.MONTH)
+            val day = c.get(Calendar.DAY_OF_MONTH)
+            val hour = c.get(Calendar.HOUR_OF_DAY)
+            val minute = c.get(Calendar.MINUTE)
+
+            if (year != null && month != null && month != day) {
+                createTodoNotificationDateTextView.text = "$day:$month:$year"
+            }
+
+            if (hour != null && minute != null) {
+                createTodoNotificationTimeTextView.text = "$hour:$minute"
+            }
+        }
+
         createTodoNotificationDateButton.setOnClickListener {
             val newFragment = DatePickerFragment()
             newFragment.listener = { year, month, dayOfMonth ->
                 val calendar = Calendar.getInstance()
 
-                if (viewModel.todo.value?.notification != null){
+                if (viewModel.todo.value?.notification != null) {
                     calendar.time = viewModel.todo.value?.notification
                 }
 
@@ -69,7 +89,7 @@ class CreateFragment : DaggerFragment() {
             newFragment.listener = { hourOfDay, minute ->
                 val calendar = Calendar.getInstance()
 
-                if (viewModel.todo.value?.notification != null){
+                if (viewModel.todo.value?.notification != null) {
                     calendar.time = viewModel.todo.value?.notification
                 }
 
