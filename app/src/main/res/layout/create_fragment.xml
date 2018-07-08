@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="createViewModel"
-            type="ru.aleksandrtrushchinskii.surfproject.ui.viewmodel.CreateViewModel" />
+            name="todoViewModel"
+            type="ru.aleksandrtrushchinskii.surfproject.ui.viewmodel.TodoViewModel" />
 
     </data>
 
@@ -47,7 +47,7 @@
             android:ems="10"
             android:hint="@string/empty"
             android:inputType="textPersonName"
-            android:text="@={createViewModel.todo.title}"
+            android:text="@={todoViewModel.todo.title}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/createTodoLabelTextView" />
 
@@ -75,9 +75,63 @@
             android:ems="10"
             android:hint="@string/empty"
             android:inputType="textMultiLine"
-            android:text="@={createViewModel.todo.description}"
+            android:text="@={todoViewModel.todo.description}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/createTodoTitleEditText" />
+
+        <TextView
+            android:id="@+id/createTodoNotificationTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:text="@string/create_todo_notification"
+            app:layout_constraintBaseline_toBaselineOf="@+id/createTodoNotificationDateButton"
+            app:layout_constraintEnd_toStartOf="@+id/createTodoDescriptionEditText"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/createTodoNotificationDateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/create_todo_notification_date"
+            app:layout_constraintEnd_toStartOf="@+id/createTodoNotificationTimeButton"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/createTodoDescriptionEditText"
+            app:layout_constraintTop_toBottomOf="@+id/createTodoDescriptionEditText" />
+
+        <TextView
+            android:id="@+id/createTodoNotificationDateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/createTodoNotificationDateButton"
+            app:layout_constraintStart_toStartOf="@+id/createTodoNotificationDateButton"
+            app:layout_constraintTop_toBottomOf="@+id/createTodoNotificationDateButton" />
+
+        <Button
+            android:id="@+id/createTodoNotificationTimeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:text="@string/create_todo_notification_time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/createTodoNotificationDateButton"
+            app:layout_constraintTop_toTopOf="@+id/createTodoNotificationDateButton" />
+
+        <TextView
+            android:id="@+id/createTodoNotificationTimeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/createTodoNotificationTimeButton"
+            app:layout_constraintStart_toStartOf="@+id/createTodoNotificationTimeButton"
+            app:layout_constraintTop_toBottomOf="@+id/createTodoNotificationTimeButton" />
 
         <Button
             android:id="@+id/createTodoButton"
@@ -88,7 +142,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:onClick="@{() -> createViewModel.create()}"
+            android:onClick="@{() -> todoViewModel.create()}"
             android:text="@string/create_todo_button"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

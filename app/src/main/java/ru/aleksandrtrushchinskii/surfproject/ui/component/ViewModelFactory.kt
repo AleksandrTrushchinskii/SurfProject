@@ -5,7 +5,6 @@ import android.arch.lifecycle.ViewModelProvider
 import ru.aleksandrtrushchinskii.surfproject.common.service.Authentication
 import ru.aleksandrtrushchinskii.surfproject.common.service.Internet
 import ru.aleksandrtrushchinskii.surfproject.model.repository.TodoRepository
-import ru.aleksandrtrushchinskii.surfproject.ui.viewmodel.CreateViewModel
 import ru.aleksandrtrushchinskii.surfproject.ui.viewmodel.SearchViewModel
 import ru.aleksandrtrushchinskii.surfproject.ui.viewmodel.TodoViewModel
 
@@ -18,9 +17,8 @@ class ViewModelFactory(
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>) = when (modelClass) {
-        CreateViewModel::class.java -> CreateViewModel(auth, todoRepository, internet) as T
         SearchViewModel::class.java -> SearchViewModel(todoRepository) as T
-        TodoViewModel::class.java -> TodoViewModel(todoRepository, internet) as T
+        TodoViewModel::class.java -> TodoViewModel(auth, todoRepository, internet) as T
         else -> throw RuntimeException("Unknown view model: $modelClass")
     }
 

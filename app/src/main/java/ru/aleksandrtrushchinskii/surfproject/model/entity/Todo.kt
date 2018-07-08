@@ -24,7 +24,9 @@ data class Todo(
 
         @ServerTimestamp
         @ColumnInfo(name = "created_date")
-        var createdDate: Date? = null
+        var createdDate: Date? = null,
+
+        var notification: Date? = null
 ){
 
         companion object {
