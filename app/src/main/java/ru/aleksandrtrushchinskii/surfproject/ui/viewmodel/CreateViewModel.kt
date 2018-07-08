@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModel
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import ru.aleksandrtrushchinskii.surfproject.common.service.Authentication
+import ru.aleksandrtrushchinskii.surfproject.common.service.Internet
 import ru.aleksandrtrushchinskii.surfproject.model.entity.Todo
 import ru.aleksandrtrushchinskii.surfproject.model.repository.TodoRepository
 import ru.aleksandrtrushchinskii.surfproject.ui.component.LoadingState
@@ -13,7 +14,8 @@ import ru.aleksandrtrushchinskii.surfproject.ui.component.Navigation
 
 class CreateViewModel(
         private val auth: Authentication,
-        private val repository: TodoRepository
+        private val repository: TodoRepository,
+        private val internet: Internet
 ) : ViewModel() {
 
     val todo = MutableLiveData<Todo>().apply {
@@ -21,16 +23,20 @@ class CreateViewModel(
     }
 
 
-    fun create() = launch(UI) {
-        LoadingState.start()
+    fun create() {
+        internet.ifAvailable {
+            launch(UI) {
+                LoadingState.start()
 
-        repository.create(todo.value!!.apply { userId = auth.uid }).join()
+                repository.create(todo.value!!.apply { userId = auth.uid }).join()
 
-        todo.value = Todo()
+                todo.value = Todo()
 
-        Navigation.finishCurrentFragment()
+                Navigation.finishCurrentFragment()
 
-        LoadingState.stop()
+                LoadingState.stop()
+            }
+        }
     }
 
 }

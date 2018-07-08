@@ -2,6 +2,7 @@ package ru.aleksandrtrushchinskii.surfproject.common.service
 
 import android.content.Context
 import android.net.ConnectivityManager
+import ru.aleksandrtrushchinskii.surfproject.common.tools.logDebug
 
 
 class Internet(context: Context, private val toaster: Toaster) {
@@ -16,6 +17,7 @@ class Internet(context: Context, private val toaster: Toaster) {
         if (available) {
             code()
         } else {
+            logDebug("Internet not Available")
             toaster.internetNotAvailable()
         }
     }

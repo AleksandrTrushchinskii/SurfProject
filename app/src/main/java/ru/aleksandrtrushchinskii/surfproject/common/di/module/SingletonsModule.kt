@@ -57,8 +57,9 @@ class SingletonsModule {
     @Singleton
     fun providesViewModelFactory(
             auth: Authentication,
-            todoRepository: TodoRepository
-    ) = ViewModelFactory(auth, todoRepository)
+            todoRepository: TodoRepository,
+            internet: Internet
+    ) = ViewModelFactory(auth, todoRepository, internet)
 
     @Provides
     @Singleton
