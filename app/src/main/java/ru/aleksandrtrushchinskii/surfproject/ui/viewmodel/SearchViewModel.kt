@@ -2,14 +2,15 @@ package ru.aleksandrtrushchinskii.surfproject.ui.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.os.Bundle
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
-import ru.aleksandrtrushchinskii.surfproject.common.tools.logDebug
+import ru.aleksandrtrushchinskii.surfproject.common.tools.ACTION_KEY
 import ru.aleksandrtrushchinskii.surfproject.model.repository.TodoRepository
 import ru.aleksandrtrushchinskii.surfproject.ui.adapter.TodoAdapter
 import ru.aleksandrtrushchinskii.surfproject.ui.component.LoadingState
 import ru.aleksandrtrushchinskii.surfproject.ui.component.Navigation
-import ru.aleksandrtrushchinskii.surfproject.ui.fragment.CreateFragment
+import ru.aleksandrtrushchinskii.surfproject.ui.fragment.CreateEditFragment
 
 
 class SearchViewModel(private val repository: TodoRepository) : ViewModel() {
@@ -27,7 +28,10 @@ class SearchViewModel(private val repository: TodoRepository) : ViewModel() {
     }
 
     fun startCreating() {
-        Navigation.startFragment(CreateFragment::class.java.simpleName)
+        Navigation.startFragment(
+                CreateEditFragment::class.java.simpleName,
+                Bundle().apply { putString(ACTION_KEY, "create") }
+        )
     }
 
 }

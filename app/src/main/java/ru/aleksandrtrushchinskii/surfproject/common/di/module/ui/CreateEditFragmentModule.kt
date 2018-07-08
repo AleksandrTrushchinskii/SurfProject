@@ -4,4 +4,4 @@ import dagger.Module
 
 
 @Module
-interface CreateFragmentModule
+interface CreateEditFragmentModule

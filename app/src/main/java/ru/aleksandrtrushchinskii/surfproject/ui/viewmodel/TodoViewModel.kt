@@ -2,16 +2,18 @@ package ru.aleksandrtrushchinskii.surfproject.ui.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.os.Bundle
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import ru.aleksandrtrushchinskii.surfproject.common.service.Authentication
 import ru.aleksandrtrushchinskii.surfproject.common.service.Internet
+import ru.aleksandrtrushchinskii.surfproject.common.tools.ACTION_KEY
 import ru.aleksandrtrushchinskii.surfproject.model.entity.Todo
 import ru.aleksandrtrushchinskii.surfproject.model.repository.TodoRepository
 import ru.aleksandrtrushchinskii.surfproject.ui.adapter.TodoAdapter
 import ru.aleksandrtrushchinskii.surfproject.ui.component.LoadingState
 import ru.aleksandrtrushchinskii.surfproject.ui.component.Navigation
-import ru.aleksandrtrushchinskii.surfproject.ui.fragment.EditFragment
+import ru.aleksandrtrushchinskii.surfproject.ui.fragment.CreateEditFragment
 
 
 class TodoViewModel(
@@ -32,7 +34,9 @@ class TodoViewModel(
     }
 
     fun startEditing() {
-        Navigation.startFragment(EditFragment::class.java.simpleName)
+        Navigation.startFragment(
+                CreateEditFragment::class.java.simpleName,
+                Bundle().apply { putString(ACTION_KEY, "edit") })
     }
 
     fun delete() {
@@ -49,32 +53,32 @@ class TodoViewModel(
         }
     }
 
-    fun create() {
-        internet.ifAvailable {
-            launch(UI) {
-                LoadingState.start()
+    fun action(action: String) {
+        if (action == "create") {
+            internet.ifAvailable {
+                launch(UI) {
+                    LoadingState.start()
 
-                repository.create(todo.value!!.apply { userId = auth.uid }).join()
+                    repository.create(todo.value!!.apply { userId = auth.uid }).join()
 
-                todo.value = Todo()
+                    todo.value = Todo()
 
-                Navigation.finishCurrentFragment()
+                    Navigation.finishCurrentFragment()
 
-                LoadingState.stop()
+                    LoadingState.stop()
+                }
             }
-        }
-    }
+        } else {
+            internet.ifAvailable {
+                launch(UI) {
+                    LoadingState.start()
 
-    fun edit() {
-        internet.ifAvailable {
-            launch(UI) {
-                LoadingState.start()
+                    repository.update(todo.value!!).join()
 
-                repository.update(todo.value!!).join()
+                    TodoAdapter.clear()
 
-                TodoAdapter.clear()
-
-                Navigation.finishCurrentFragment()
+                    Navigation.finishCurrentFragment()
+                }
             }
         }
     }

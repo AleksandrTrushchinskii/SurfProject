@@ -35,8 +35,7 @@ object Navigation {
 
         when (currentFragment) {
             SignInFragment::class.java.simpleName -> startFragment(SearchFragment::class.java.simpleName)
-            CreateFragment::class.java.simpleName -> startFragment(SearchFragment::class.java.simpleName)
-            EditFragment::class.java.simpleName -> startFragment(ReadFragment::class.java.simpleName)
+            CreateEditFragment::class.java.simpleName -> startFragment(SearchFragment::class.java.simpleName)
             ReadFragment::class.java.simpleName -> startFragment(SearchFragment::class.java.simpleName)
             else -> throw RuntimeException("Unknown fragment finish : $currentFragment")
         }
@@ -51,11 +50,11 @@ object Navigation {
                         .replace(R.id.container, SignInFragment())
                         .commit()
             }
-            CreateFragment::class.java.simpleName -> {
+            CreateEditFragment::class.java.simpleName -> {
                 with(activity!!.supportFragmentManager) {
                     popBackStack()
                     beginTransaction()
-                            .replace(R.id.container, CreateFragment())
+                            .replace(R.id.container, CreateEditFragment().apply { arguments = bundle })
                             .addToBackStack(null)
                             .commit()
                 }
@@ -66,23 +65,10 @@ object Navigation {
                         .commit()
             }
             ReadFragment::class.java.simpleName -> {
-                val readFragment = ReadFragment().apply {
-                    arguments = bundle
-                }
-
                 with(activity!!.supportFragmentManager) {
                     popBackStack()
                     beginTransaction()
-                            .replace(R.id.container, readFragment)
-                            .addToBackStack(null)
-                            .commit()
-                }
-            }
-            EditFragment::class.java.simpleName -> {
-                with(activity!!.supportFragmentManager) {
-                    popBackStack()
-                    beginTransaction()
-                            .replace(R.id.container, EditFragment())
+                            .replace(R.id.container, ReadFragment().apply { arguments = bundle })
                             .addToBackStack(null)
                             .commit()
                 }

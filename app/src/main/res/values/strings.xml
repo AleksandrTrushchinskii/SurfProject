@@ -6,20 +6,19 @@
 
     <string name="empty" />
 
-    <string name="sign_in_button">Sign In</string>
+    <string name="sign_in">Sign In</string>
 
-    <string name="create_todo_label">Create Todo</string>
-    <string name="create_todo_title">Title</string>
-    <string name="create_todo_description">Description</string>
-    <string name="create_todo_button">Create</string>
-    <string name="create_todo_notification">Notification</string>
-    <string name="create_todo_notification_date">Date</string>
-    <string name="create_todo_notification_time">Time</string>
-    <string name="create_todo_notification_clean">Clean</string>
+    <string name="create_action_label">Create Todo</string>
+    <string name="update_action_label">Update Todo</string>
+    <string name="todo_title">Title</string>
+    <string name="todo_description">Description</string>
+    <string name="notification">Notification</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="clear">Clear</string>
 
-    <string name="edit_todo_button">Edit</string>
-
-    <string name="read_edit_todo">Edit</string>
-    <string name="read_delete_todo">Delete</string>
+    <string name="create">Create</string>
+    <string name="update">Update</string>
+    <string name="delete">Delete</string>
 
 </resources>
