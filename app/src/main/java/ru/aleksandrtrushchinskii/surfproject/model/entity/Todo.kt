@@ -23,6 +23,7 @@ data class Todo(
         var userId: String = "",
 
         @ServerTimestamp
+        @ColumnInfo(name = "created_date")
         var createdDate: Date? = null
 ){
 

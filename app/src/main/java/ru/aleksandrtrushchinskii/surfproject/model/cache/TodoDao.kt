@@ -23,10 +23,13 @@ interface TodoDao {
     @Query("SELECT * FROM ${Todo.TABLE_NAME} WHERE id = :id")
     fun get(id: String): Todo
 
-    @Query("SELECT * FROM ${Todo.TABLE_NAME} ORDER BY createdDate DESC")
+    @Query("SELECT * FROM ${Todo.TABLE_NAME} ORDER BY created_date DESC")
     fun getAll(): List<Todo>
 
     @Delete
     fun delete(todo: Todo)
+
+    @Query("SELECT * FROM ${Todo.TABLE_NAME} WHERE title LIKE :query OR description LIKE :query")
+    fun search(query: String): List<Todo>
 
 }

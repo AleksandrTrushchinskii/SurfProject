@@ -48,4 +48,8 @@ class TodoRepository(private val database: TodoDatabase, appCache: AppCache) {
         cache.delete(todo)
     }
 
+    fun search(query: String) = async {
+        cache.search(query)
+    }
+
 }
