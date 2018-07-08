@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="todoViewModel"
             type="ru.aleksandrtrushchinskii.surfproject.ui.viewmodel.TodoViewModel" />
@@ -37,6 +39,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/readTitle"
             tools:text="Todo's description" />
+
+        <TextView
+            android:id="@+id/readNotificationLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/notification"
+            android:visibility="@{todoViewModel.todo.notification != null ? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintStart_toStartOf="@+id/readDescription"
+            app:layout_constraintTop_toBottomOf="@+id/readDescription" />
+
+        <TextView
+            android:id="@+id/readNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:visibility="@{todoViewModel.todo.notification != null ? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintBaseline_toBaselineOf="@+id/readNotificationLabel"
+            app:layout_constraintStart_toEndOf="@+id/readNotificationLabel" />
 
         <Button
             android:id="@+id/readEditTodo"

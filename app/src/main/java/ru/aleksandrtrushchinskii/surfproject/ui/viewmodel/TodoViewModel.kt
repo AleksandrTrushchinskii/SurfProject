@@ -25,12 +25,10 @@ class TodoViewModel(
     val todo = MutableLiveData<Todo>().apply { value = Todo() }
 
 
-    fun setTodo(id: String) {
-        launch(UI) {
-            todo.value = repository.get(id).await()
+    fun setTodo(id: String) = launch(UI) {
+        todo.value = repository.get(id).await()
 
-            LoadingState.stop()
-        }
+        LoadingState.stop()
     }
 
     fun startEditing() {
