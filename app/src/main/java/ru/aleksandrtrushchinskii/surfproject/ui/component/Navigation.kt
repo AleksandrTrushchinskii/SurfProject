@@ -3,13 +3,17 @@ package ru.aleksandrtrushchinskii.surfproject.ui.component
 import android.os.Bundle
 import ru.aleksandrtrushchinskii.surfproject.R
 import ru.aleksandrtrushchinskii.surfproject.ui.MainActivity
-import ru.aleksandrtrushchinskii.surfproject.ui.fragment.*
+import ru.aleksandrtrushchinskii.surfproject.ui.fragment.CreateEditFragment
+import ru.aleksandrtrushchinskii.surfproject.ui.fragment.ReadFragment
+import ru.aleksandrtrushchinskii.surfproject.ui.fragment.SearchFragment
+import ru.aleksandrtrushchinskii.surfproject.ui.fragment.SignInFragment
 
 
 object Navigation {
 
     private var activity: MainActivity? = null
     private var currentFragment: String = ""
+    private var currentBundle: Bundle? = null
 
 
     fun init(activity: MainActivity) {
@@ -22,7 +26,7 @@ object Navigation {
 
     fun start() {
         if (currentFragment.isNotEmpty()) {
-            startFragment(currentFragment)
+            startFragment(currentFragment, currentBundle)
         } else {
             startFragment(SearchFragment::class.java.simpleName)
         }
@@ -43,6 +47,7 @@ object Navigation {
 
     fun startFragment(fragmentClassName: String, bundle: Bundle? = null) {
         activity ?: return
+        currentBundle = bundle
 
         when (fragmentClassName) {
             SignInFragment::class.java.simpleName -> {
@@ -54,7 +59,7 @@ object Navigation {
                 with(activity!!.supportFragmentManager) {
                     popBackStack()
                     beginTransaction()
-                            .replace(R.id.container, CreateEditFragment().apply { arguments = bundle })
+                            .replace(R.id.container, CreateEditFragment().apply { arguments = currentBundle })
                             .addToBackStack(null)
                             .commit()
                 }
@@ -68,7 +73,7 @@ object Navigation {
                 with(activity!!.supportFragmentManager) {
                     popBackStack()
                     beginTransaction()
-                            .replace(R.id.container, ReadFragment().apply { arguments = bundle })
+                            .replace(R.id.container, ReadFragment().apply { arguments = currentBundle })
                             .addToBackStack(null)
                             .commit()
                 }
