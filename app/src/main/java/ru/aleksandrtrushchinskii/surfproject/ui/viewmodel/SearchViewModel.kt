@@ -20,7 +20,7 @@ class SearchViewModel(private val repository: TodoRepository) : ViewModel() {
 
     fun load() = launch(UI) {
         if (!query.value.isNullOrEmpty()) {
-            TodoAdapter.setData(repository.search("%${query.value}%").await())
+//            TodoAdapter.setData(repository.search("%${query.value}%").await())
         } else {
             TodoAdapter.setData(repository.load().await())
         }

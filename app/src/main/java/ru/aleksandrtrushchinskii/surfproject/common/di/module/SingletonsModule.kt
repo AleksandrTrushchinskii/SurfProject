@@ -12,8 +12,6 @@ import ru.aleksandrtrushchinskii.surfproject.model.database.TodoDatabase
 import ru.aleksandrtrushchinskii.surfproject.model.repository.TodoRepository
 import ru.aleksandrtrushchinskii.surfproject.ui.component.ViewModelFactory
 import javax.inject.Singleton
-import android.arch.persistence.room.Room
-import ru.aleksandrtrushchinskii.surfproject.model.cache.AppCache
 
 
 @Module
@@ -40,10 +38,7 @@ class SingletonsModule {
 
     @Provides
     @Singleton
-    fun providesTodoRepository(
-            todoDatabase: TodoDatabase,
-            appCache: AppCache
-    ) = TodoRepository(todoDatabase, appCache)
+    fun providesTodoRepository(todoDatabase: TodoDatabase) = TodoRepository(todoDatabase)
 
     @Provides
     @Singleton
@@ -60,13 +55,5 @@ class SingletonsModule {
             todoRepository: TodoRepository,
             internet: Internet
     ) = ViewModelFactory(auth, todoRepository, internet)
-
-    @Provides
-    @Singleton
-    fun provideAppCache(context: Context) = Room.databaseBuilder(
-            context,
-            AppCache::class.java,
-            "database-name"
-    ).build()
 
 }
