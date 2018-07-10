@@ -55,7 +55,7 @@ class SignInFragment : DaggerFragment() {
 
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == Activity.RESULT_OK) {
-                Navigation.finishCurrentFragment()
+                Navigation.startFragment(SearchFragment::class.java.simpleName)
             } else {
                 toaster.signInWasFailed()
             }

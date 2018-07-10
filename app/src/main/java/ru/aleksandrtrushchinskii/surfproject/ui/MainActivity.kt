@@ -50,4 +50,9 @@ class MainActivity : DaggerAppCompatActivity() {
         Navigation.clear()
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        Navigation.finishCurrentFragment()
+    }
+
 }

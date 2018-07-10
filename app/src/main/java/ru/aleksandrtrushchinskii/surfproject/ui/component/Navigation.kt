@@ -38,9 +38,10 @@ object Navigation {
         LoadingState.start()
 
         when (currentFragment) {
-            SignInFragment::class.java.simpleName -> startFragment(SearchFragment::class.java.simpleName)
+            SignInFragment::class.java.simpleName -> activity?.finish()
             CreateEditFragment::class.java.simpleName -> startFragment(SearchFragment::class.java.simpleName)
             ReadFragment::class.java.simpleName -> startFragment(SearchFragment::class.java.simpleName)
+            SearchFragment::class.java.simpleName -> activity?.finish()
             else -> throw RuntimeException("Unknown fragment finish : $currentFragment")
         }
     }
