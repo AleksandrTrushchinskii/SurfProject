@@ -11,6 +11,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.search_fragment.*
 import ru.aleksandrtrushchinskii.surfproject.R
+import ru.aleksandrtrushchinskii.surfproject.common.service.Alarm
 import ru.aleksandrtrushchinskii.surfproject.common.tools.inflateBinding
 import ru.aleksandrtrushchinskii.surfproject.common.tools.logDebug
 import ru.aleksandrtrushchinskii.surfproject.common.tools.toObservable
@@ -27,15 +28,16 @@ class SearchFragment : DaggerFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
+    @Inject
+    lateinit var alarm: Alarm
+
     private lateinit var searchViewModel: SearchViewModel
     private lateinit var binding: SearchFragmentBinding
 
     private lateinit var searchDisposable: Disposable
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         searchViewModel = ViewModelProviders.of(activity!!, viewModelFactory).get(SearchViewModel::class.java)
 
         binding = container.inflateBinding(R.layout.search_fragment)
@@ -64,6 +66,8 @@ class SearchFragment : DaggerFragment() {
                     logDebug("Searching for $query")
                     searchViewModel.query.value = query
                 }
+
+        alarm.resetNotify()
     }
 
     override fun onDestroy() {

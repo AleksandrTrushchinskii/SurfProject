@@ -2,11 +2,13 @@ package ru.aleksandrtrushchinskii.surfproject.model.database
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.Source
 import ru.aleksandrtrushchinskii.surfproject.common.service.Authentication
 import ru.aleksandrtrushchinskii.surfproject.common.tools.logDebug
 import ru.aleksandrtrushchinskii.surfproject.common.tools.logError
 import ru.aleksandrtrushchinskii.surfproject.common.tools.toTodo
 import ru.aleksandrtrushchinskii.surfproject.model.entity.Todo
+import java.util.*
 import kotlin.coroutines.experimental.suspendCoroutine
 
 
@@ -73,6 +75,24 @@ class TodoDatabase(
         }.addOnFailureListener {
             logError("Todo deleting was failed : $it")
         }
+    }
+
+    suspend fun getSoon() = suspendCoroutine<Todo?> { continuation ->
+        db.whereEqualTo("userId", auth.uid)
+                .whereGreaterThan("notification", Date(System.currentTimeMillis()))
+                .orderBy("notification")
+                .limit(1)
+                .get(Source.CACHE).addOnSuccessListener {
+                    if (it.isEmpty) {
+                        logError("Not soon todo")
+                        continuation.resume(null)
+                    } else {
+                        logError("Soon todo exist")
+                        continuation.resume(it.documents[0].toTodo())
+                    }
+                }.addOnFailureListener {
+                    logError("Getting soon todo was failed : $it")
+                }
     }
 
 }
