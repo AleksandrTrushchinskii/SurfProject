@@ -15,6 +15,7 @@ fun configurateDate(fragmentManager: FragmentManager,
                     dateB: Button? = null,
                     timeB: Button? = null,
                     clearB: Button? = null) {
+    
     if (viewModel.todo.value?.notification != null) {
         val c = Calendar.getInstance()
 
@@ -86,5 +87,6 @@ fun configurateDate(fragmentManager: FragmentManager,
         viewModel.todo.value?.notification = null
         dateTV.text = ""
         timeTV.text = ""
+        it.invisible()
     }
 }
