@@ -3,6 +3,7 @@ package ru.aleksandrtrushchinskii.surfproject.common.tools
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.support.annotation.LayoutRes
+import android.support.v4.app.Fragment
 import android.support.v7.widget.SearchView
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import android.view.ViewGroup
 import com.google.firebase.firestore.DocumentSnapshot
 import io.reactivex.Observable
 import ru.aleksandrtrushchinskii.surfproject.model.entity.Todo
+import ru.aleksandrtrushchinskii.surfproject.ui.MainActivity
 
 
 fun ViewGroup?.inflate(@LayoutRes layoutId: Int): View {
@@ -63,3 +65,6 @@ fun SearchView.toObservable() = Observable.create<String> { emitter ->
         }
     })
 }
+
+val Fragment.mainActivity: MainActivity?
+    get() = activity as MainActivity

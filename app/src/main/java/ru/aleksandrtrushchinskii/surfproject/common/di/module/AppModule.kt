@@ -11,7 +11,7 @@ import ru.aleksandrtrushchinskii.surfproject.ui.MainActivity
 interface AppModule {
 
     @ActivityScope
-    @ContributesAndroidInjector(modules = [MainModule::class])
+    @ContributesAndroidInjector(modules = [MainModule::class, MainActivityModule::class])
     fun mainActivityInjector(): MainActivity
 
 }

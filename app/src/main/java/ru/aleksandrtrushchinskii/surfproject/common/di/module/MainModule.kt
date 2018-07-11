@@ -15,8 +15,12 @@ interface MainModule {
     fun signInFragment(): SignInFragment
 
     @FragmentScope
-    @ContributesAndroidInjector(modules = [CreateEditFragmentModule::class])
-    fun createEditFragment(): CreateEditFragment
+    @ContributesAndroidInjector(modules = [CreateFragmentModule::class])
+    fun createFragment(): CreateFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [EditFragmentModule::class])
+    fun editFragment(): EditFragment
 
     @FragmentScope
     @ContributesAndroidInjector(modules = [SearchFragmentModule::class])
@@ -25,6 +29,5 @@ interface MainModule {
     @FragmentScope
     @ContributesAndroidInjector(modules = [ReadFragmentModule::class])
     fun readFragment(): ReadFragment
-
 
 }

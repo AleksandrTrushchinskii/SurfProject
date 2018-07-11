@@ -1,18 +1,13 @@
 package ru.aleksandrtrushchinskii.surfproject.ui.adapter
 
-import android.os.Bundle
 import android.view.View
 import ru.aleksandrtrushchinskii.surfproject.BR
 import ru.aleksandrtrushchinskii.surfproject.R
-import ru.aleksandrtrushchinskii.surfproject.common.tools.TODO_ID_KEY
 import ru.aleksandrtrushchinskii.surfproject.model.entity.Todo
-import ru.aleksandrtrushchinskii.surfproject.ui.component.LoadingState
-import ru.aleksandrtrushchinskii.surfproject.ui.component.Navigation
 import ru.aleksandrtrushchinskii.surfproject.ui.component.ViewModelAdapter
-import ru.aleksandrtrushchinskii.surfproject.ui.fragment.ReadFragment
 
 
-object TodoAdapter : ViewModelAdapter() {
+class TodoAdapter(private val onClickItem: (todo: Todo) -> Unit) : ViewModelAdapter() {
 
     init {
         cell(Todo::class.java, R.layout.todo_item, BR.todo)
@@ -31,15 +26,8 @@ object TodoAdapter : ViewModelAdapter() {
         notifyDataSetChanged()
     }
 
-    fun clear() {
-        items.clear()
-    }
-
     fun itemClicked(view: View, todo: Todo) {
-        LoadingState.start()
-
-        val bundle = Bundle().apply { putString(TODO_ID_KEY, todo.id) }
-        Navigation.startFragment(ReadFragment::class.java.simpleName, bundle)
+        onClickItem(todo)
     }
 
 }

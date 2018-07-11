@@ -9,11 +9,12 @@ import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.read_fragment.*
 import ru.aleksandrtrushchinskii.surfproject.R
 import ru.aleksandrtrushchinskii.surfproject.common.tools.TODO_ID_KEY
+import ru.aleksandrtrushchinskii.surfproject.common.tools.fullDateFormat
 import ru.aleksandrtrushchinskii.surfproject.common.tools.inflateBinding
+import ru.aleksandrtrushchinskii.surfproject.common.tools.mainActivity
 import ru.aleksandrtrushchinskii.surfproject.databinding.ReadFragmentBinding
 import ru.aleksandrtrushchinskii.surfproject.ui.component.ViewModelFactory
 import ru.aleksandrtrushchinskii.surfproject.ui.viewmodel.TodoViewModel
-import java.util.*
 import javax.inject.Inject
 
 
@@ -44,12 +45,19 @@ class ReadFragment : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        readEditTodo.setOnClickListener {
+            mainActivity?.navigation?.startFragment(EditFragment())
+        }
+
+        readDeleteTodo.setOnClickListener {
+            viewModel.delete {
+                mainActivity?.navigation?.startFragment(SearchFragment())
+            }
+        }
+
         viewModel.todo.observe(this, android.arch.lifecycle.Observer {
             if (it?.notification != null) {
-                val c = Calendar.getInstance().apply { time = it.notification }
-
-                readNotification.text = "${c.get(Calendar.HOUR_OF_DAY)}:${c.get(Calendar.MINUTE)} " +
-                        "${c.get(Calendar.DAY_OF_MONTH)}:${c.get(Calendar.MONTH)}:${c.get(Calendar.YEAR)}"
+                readNotification.text = fullDateFormat.format(it.notification)
             }
         })
     }

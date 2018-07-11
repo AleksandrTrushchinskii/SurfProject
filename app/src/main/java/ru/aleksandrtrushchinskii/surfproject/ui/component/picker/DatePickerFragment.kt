@@ -5,12 +5,11 @@ import android.app.Dialog
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.widget.DatePicker
+import ru.aleksandrtrushchinskii.surfproject.common.tools.mainActivity
 import java.util.*
 
-class DatePickerFragment: DialogFragment(), DatePickerDialog.OnDateSetListener {
 
-    lateinit var listener: (year: Int, month: Int, dayOfMonth: Int) -> Unit
-
+class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val c = Calendar.getInstance()
@@ -18,10 +17,11 @@ class DatePickerFragment: DialogFragment(), DatePickerDialog.OnDateSetListener {
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
 
-        return DatePickerDialog(activity!!, this, year, month, day)    }
+        return DatePickerDialog(activity!!, this, year, month, day)
+    }
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        listener(year, month, dayOfMonth)
+        mainActivity?.onDateSet(view, year, month, dayOfMonth)
     }
 
 }
