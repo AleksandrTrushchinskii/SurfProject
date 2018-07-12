@@ -10,6 +10,7 @@ import android.widget.TimePicker
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.create_edit_fragment.*
 import ru.aleksandrtrushchinskii.surfproject.R
+import ru.aleksandrtrushchinskii.surfproject.common.service.Alarm
 import ru.aleksandrtrushchinskii.surfproject.common.tools.dateFormat
 import ru.aleksandrtrushchinskii.surfproject.common.tools.timeFormat
 import ru.aleksandrtrushchinskii.surfproject.common.tools.visible
@@ -29,6 +30,9 @@ class MainActivity : DaggerAppCompatActivity(), DatePickerDialog.OnDateSetListen
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
+    @Inject
+    lateinit var alarm: Alarm
+
     private lateinit var todoViewModel: TodoViewModel
     private lateinit var binding: MainActivityBinding
 
@@ -42,9 +46,11 @@ class MainActivity : DaggerAppCompatActivity(), DatePickerDialog.OnDateSetListen
             setLifecycleOwner(this@MainActivity)
         }
 
-        if (savedInstanceState == null){
+        if (savedInstanceState == null) {
             navigation.start()
         }
+
+        alarm.setAlarmForAll()
     }
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
@@ -54,7 +60,7 @@ class MainActivity : DaggerAppCompatActivity(), DatePickerDialog.OnDateSetListen
             calendar.time = todoViewModel.todo.value?.notification
         }
 
-        with(calendar){
+        with(calendar) {
             set(Calendar.YEAR, year)
             set(Calendar.MONTH, month)
             set(Calendar.DAY_OF_MONTH, dayOfMonth)
@@ -74,7 +80,7 @@ class MainActivity : DaggerAppCompatActivity(), DatePickerDialog.OnDateSetListen
             calendar.time = todoViewModel.todo.value?.notification
         }
 
-        with(calendar){
+        with(calendar) {
             set(Calendar.HOUR_OF_DAY, hourOfDay)
             set(Calendar.MINUTE, minute)
         }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Surf Project</string>
+    <string name="toast_internet_not_available">Нет доступа к интернету. Пожалуйста подключитесь и повторите позже</string>
+    <string name="toast_sign_in_was_failed">При входе в систему произошла ошибка</string>
+    <string name="sign_in">Войти</string>
+    <string name="sign_in_label">Менеджер задач</string>
+    <string name="create_action_label">Новая задача</string>
+    <string name="update_action_label">Редактирование</string>
+    <string name="todo_title">Название</string>
+    <string name="todo_description">Описание</string>
+    <string name="notification">Напоминание</string>
+    <string name="date">Дата</string>
+    <string name="time">Время</string>
+    <string name="clear">Очистить</string>
+    <string name="create">Создать</string>
+    <string name="update">Обновить</string>
+    <string name="delete">Удалить</string>
+</resources>

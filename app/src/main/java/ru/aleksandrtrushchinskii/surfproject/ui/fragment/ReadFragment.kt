@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.read_fragment.*
 import ru.aleksandrtrushchinskii.surfproject.R
+import ru.aleksandrtrushchinskii.surfproject.common.service.Alarm
 import ru.aleksandrtrushchinskii.surfproject.common.tools.TODO_ID_KEY
 import ru.aleksandrtrushchinskii.surfproject.common.tools.fullDateFormat
 import ru.aleksandrtrushchinskii.surfproject.common.tools.inflateBinding
@@ -22,6 +23,9 @@ class ReadFragment : DaggerFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    lateinit var alarm: Alarm
 
     private lateinit var binding: ReadFragmentBinding
     private lateinit var viewModel: TodoViewModel
@@ -51,6 +55,10 @@ class ReadFragment : DaggerFragment() {
 
         readDeleteTodo.setOnClickListener {
             viewModel.delete {
+                if (viewModel.todo.value?.notification?.time != null &&
+                        viewModel.todo.value?.notification?.time!! > System.currentTimeMillis()) {
+                    alarm.cancel(viewModel.todo.value!!)
+                }
                 mainActivity?.navigation?.startFragment(SearchFragment())
             }
         }

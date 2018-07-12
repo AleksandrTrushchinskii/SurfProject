@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.create_edit_fragment.*
 import ru.aleksandrtrushchinskii.surfproject.R
+import ru.aleksandrtrushchinskii.surfproject.common.service.Alarm
 import ru.aleksandrtrushchinskii.surfproject.common.tools.*
 import ru.aleksandrtrushchinskii.surfproject.databinding.CreateEditFragmentBinding
 import ru.aleksandrtrushchinskii.surfproject.model.entity.Todo
@@ -22,6 +23,9 @@ class CreateFragment : DaggerFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
+    @Inject
+    lateinit var alarm: Alarm
 
     private lateinit var binding: CreateEditFragmentBinding
     private lateinit var viewModel: TodoViewModel
@@ -50,7 +54,13 @@ class CreateFragment : DaggerFragment() {
         configurateDate()
 
         actionTodoButton.setOnClickListener {
-            viewModel.create { mainActivity?.navigation?.startFragment(SearchFragment()) }
+            viewModel.create {
+                if (viewModel.todo.value?.notification?.time != null &&
+                        viewModel.todo.value?.notification?.time!! > System.currentTimeMillis()) {
+                    alarm.resetAlarm(viewModel.todo.value!!)
+                }
+                mainActivity?.navigation?.startFragment(SearchFragment())
+            }
         }
     }
 

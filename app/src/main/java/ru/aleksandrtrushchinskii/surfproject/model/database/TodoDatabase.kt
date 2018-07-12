@@ -20,78 +20,107 @@ class TodoDatabase(
     private val db = firestore.collection("todos")
 
 
-    suspend fun create(todo: Todo) = suspendCoroutine<String> { continuation ->
-        db.add(todo).addOnSuccessListener {
-            logDebug("Todo was created with id ${it.id} : $todo")
-            continuation.resume(it.id)
-        }.addOnFailureListener {
-            logError("Todo creating was failed : $it")
+    fun create(todo: Todo) = db.document().addSnapshotListener { documentSnapshot, e ->
+        if (e != null) {
+            logError("Todo creating was failed : $e")
+            return@addSnapshotListener
+        }
+
+        documentSnapshot ?: return@addSnapshotListener
+
+        if (!documentSnapshot.exists()) {
+            documentSnapshot.reference.set(todo)
+            logDebug("Todo was created")
         }
     }
 
-    suspend fun update(todo: Todo) = suspendCoroutine<Unit> { continuation ->
-        db.document(todo.id).set(todo).addOnSuccessListener {
-            logDebug("Todo was updated with id ${todo.id} : $todo")
-            continuation.resume(Unit)
-        }.addOnFailureListener {
-            logError("Todo updating was failed : $it")
+    fun update(todo: Todo) = db.document(todo.id).addSnapshotListener { documentSnapshot, e ->
+        if (e != null) {
+            logError("Todo updating was failed : $e")
+            return@addSnapshotListener
+        }
+
+        documentSnapshot ?: return@addSnapshotListener
+
+        if (documentSnapshot.exists()) {
+            documentSnapshot.reference.update(todo.toMap())
+            logDebug("Todo was updated")
         }
     }
 
-    suspend fun load() = suspendCoroutine<List<Todo>> { continuation ->
-        db.whereEqualTo("userId", auth.uid)
-                .orderBy("createdDate", Query.Direction.DESCENDING)
-                .get().addOnSuccessListener {
-                    val todos = arrayListOf<Todo>()
+    fun load(query: String = "", callback: (List<Todo>) -> Unit) = db.whereEqualTo("userId", auth.uid)
+            .orderBy("createdDate", Query.Direction.DESCENDING)
+            .addSnapshotListener { querySnapshot, e ->
+                if (e != null) {
+                    logError("Todo loading was failed : $e")
+                    return@addSnapshotListener
+                }
 
-                    it.documents.forEach {
-                        todos.add(it.toTodo())
+                querySnapshot ?: return@addSnapshotListener
+
+                if (!querySnapshot.isEmpty) {
+                    var todos = mutableListOf<Todo>()
+
+                    for (document in querySnapshot.documents) {
+                        todos.add(document.toTodo())
                     }
 
-                    logDebug("Loaded todos : $todos")
+                    todos = todos.filter {
+                        it.title.contains(query, true) || it.description.contains(query, true)
+                    }.toMutableList()
+
+                    logDebug("Loaded : $todos")
+                    callback(todos)
+                }
+            }
+
+
+    fun get(id: String, callback: (Todo) -> Unit) = db.document(id).addSnapshotListener { documentSnapshot, e ->
+        if (e != null) {
+            logError("Todo getting was failed : $e")
+            return@addSnapshotListener
+        }
+
+        documentSnapshot ?: return@addSnapshotListener
+
+        if (documentSnapshot.exists()) {
+            val todo = documentSnapshot.toTodo()
+
+            logDebug("Todo was get : $todo")
+
+            callback(todo)
+        }
+    }
+
+    fun delete(id: String) = db.document(id).addSnapshotListener { documentSnapshot, e ->
+        if (e != null) {
+            logError("Todo deleting was failed : $e")
+            return@addSnapshotListener
+        }
+
+        documentSnapshot ?: return@addSnapshotListener
+
+        if (documentSnapshot.exists()) {
+            documentSnapshot.reference.delete()
+            logDebug("Todo was delete")
+        }
+    }
+
+    suspend fun getSoonTodos() = suspendCoroutine<List<Todo>> { continuation ->
+        db.whereGreaterThan("notification", Date(System.currentTimeMillis()))
+                .get(Source.CACHE)
+                .addOnSuccessListener {
+                    val todos = mutableListOf<Todo>()
+
+                    for (document in it.documents) {
+                        todos.add(document.toTodo())
+                    }
+
+                    logDebug("Todos to notify : $todos")
 
                     continuation.resume(todos)
                 }.addOnFailureListener {
-                    logError("Todo loading was failed : $it")
-                }
-    }
-
-    suspend fun get(id: String) = suspendCoroutine<Todo> { continuation ->
-        db.document(id).get().addOnSuccessListener {
-            val todo = it.toTodo()
-
-            logDebug("Loaded todo : $todo")
-
-            continuation.resume(todo)
-        }.addOnFailureListener {
-            logError("Todo getting was failed : $it")
-        }
-    }
-
-    suspend fun delete(id: String) = suspendCoroutine<Unit> { continuation ->
-        db.document(id).delete().addOnSuccessListener {
-            logError("Todo was delete : $id")
-            continuation.resume(Unit)
-        }.addOnFailureListener {
-            logError("Todo deleting was failed : $it")
-        }
-    }
-
-    suspend fun getSoon() = suspendCoroutine<Todo?> { continuation ->
-        db.whereEqualTo("userId", auth.uid)
-                .whereGreaterThan("notification", Date(System.currentTimeMillis()))
-                .orderBy("notification")
-                .limit(1)
-                .get(Source.CACHE).addOnSuccessListener {
-                    if (it.isEmpty) {
-                        logError("Not soon todo")
-                        continuation.resume(null)
-                    } else {
-                        logError("Soon todo exist")
-                        continuation.resume(it.documents[0].toTodo())
-                    }
-                }.addOnFailureListener {
-                    logError("Getting soon todo was failed : $it")
+                    logError("Getting soon todos was failed")
                 }
     }
 

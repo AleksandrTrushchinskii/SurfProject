@@ -27,10 +27,17 @@ data class Todo(
         var createdDate: Date? = null,
 
         var notification: Date? = null
-){
+) {
 
-        companion object {
-            const val TABLE_NAME = "todos"
-        }
+    companion object {
+        const val TABLE_NAME = "todos"
+    }
+
+    fun toMap() = mutableMapOf<String, Any>().apply {
+        put("title", title)
+        put("description", description)
+        if (notification != null) put("notification", notification!!)
+    }
+
 
 }

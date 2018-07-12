@@ -11,7 +11,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.search_fragment.*
 import ru.aleksandrtrushchinskii.surfproject.R
-import ru.aleksandrtrushchinskii.surfproject.common.service.Alarm
 import ru.aleksandrtrushchinskii.surfproject.common.tools.*
 import ru.aleksandrtrushchinskii.surfproject.databinding.SearchFragmentBinding
 import ru.aleksandrtrushchinskii.surfproject.ui.adapter.TodoAdapter
@@ -26,22 +25,20 @@ class SearchFragment : DaggerFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    @Inject
-    lateinit var alarm: Alarm
-
-    private lateinit var searchViewModel: SearchViewModel
+    private lateinit var viewModel: SearchViewModel
     private lateinit var binding: SearchFragmentBinding
 
     private lateinit var searchDisposable: Disposable
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        searchViewModel = ViewModelProviders.of(this, viewModelFactory).get(SearchViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(SearchViewModel::class.java)
 
         binding = container.inflateBinding(R.layout.search_fragment)
-        binding.searchViewModel = searchViewModel
+        binding.searchViewModel = viewModel
 
         val adapter = TodoAdapter {
+            viewModel.unregister()
             mainActivity?.navigation?.startFragment(ReadFragment().apply {
                 arguments = Bundle().apply { putString(TODO_ID_KEY, it.id) }
             })
@@ -49,11 +46,11 @@ class SearchFragment : DaggerFragment() {
 
         binding.todoAdapter = adapter
 
-        searchViewModel.load { adapter.setData(it) }
+        viewModel.load { adapter.setData(it) }
 
-        searchViewModel.query.observe(activity!!, Observer {
+        viewModel.query.observe(activity!!, Observer {
             logDebug("Query was change $it")
-            searchViewModel.load { adapter.setData(it) }
+            viewModel.load { adapter.setData(it) }
         })
 
         return binding.root
@@ -62,21 +59,20 @@ class SearchFragment : DaggerFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchView.setQuery(searchViewModel.query.value, false)
+        searchView.setQuery(viewModel.query.value, false)
 
         searchDisposable = searchView.toObservable()
                 .debounce(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { query ->
                     logDebug("Searching for $query")
-                    searchViewModel.query.value = query
+                    viewModel.query.value = query
                 }
 
         fab.setOnClickListener {
+            viewModel.unregister()
             mainActivity?.navigation?.startFragment(CreateFragment())
         }
-
-        alarm.resetNotify()
     }
 
     override fun onDestroy() {

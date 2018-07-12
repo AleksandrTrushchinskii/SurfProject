@@ -1,55 +1,35 @@
 package ru.aleksandrtrushchinskii.surfproject.model.repository
 
+import com.google.firebase.firestore.ListenerRegistration
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
-import ru.aleksandrtrushchinskii.surfproject.model.cache.AppCache
 import ru.aleksandrtrushchinskii.surfproject.model.database.TodoDatabase
 import ru.aleksandrtrushchinskii.surfproject.model.entity.Todo
 
 
-class TodoRepository(private val database: TodoDatabase, appCache: AppCache) {
+class TodoRepository(private val database: TodoDatabase) {
 
-    private val cache = appCache.todoDao()
+    var loadListener: ListenerRegistration? = null
 
 
     fun create(todo: Todo) = launch {
-        val id = database.create(todo)
-
-        val newTodo = database.get(id)
-
-        cache.insert(newTodo)
+        database.create(todo)
     }
 
     fun update(todo: Todo) = launch {
         database.update(todo)
-        cache.update(todo)
     }
 
-    fun load() = async {
-        var todos = listOf<Todo>()
-
-        todos += cache.getAll()
-
-        if (todos.isEmpty()) {
-            todos += database.load()
-
-            cache.insertAll(todos)
-        }
-
-        todos
+    fun load(query: String = "", callback: (List<Todo>) -> Unit) = launch {
+        loadListener = database.load(query, callback)
     }
 
-    fun get(id: String) = async {
-        cache.get(id)
+    fun get(id: String, callback: (Todo) -> Unit) = async {
+        database.get(id, callback)
     }
 
     fun delete(todo: Todo) = launch {
         database.delete(todo.id)
-        cache.delete(todo)
-    }
-
-    fun search(query: String) = async {
-        cache.search(query)
     }
 
 }

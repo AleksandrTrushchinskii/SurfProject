@@ -3,7 +3,6 @@ package ru.aleksandrtrushchinskii.surfproject.ui.component
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import ru.aleksandrtrushchinskii.surfproject.common.service.Authentication
-import ru.aleksandrtrushchinskii.surfproject.common.service.Internet
 import ru.aleksandrtrushchinskii.surfproject.model.repository.TodoRepository
 import ru.aleksandrtrushchinskii.surfproject.ui.viewmodel.SearchViewModel
 import ru.aleksandrtrushchinskii.surfproject.ui.viewmodel.TodoViewModel
@@ -11,14 +10,13 @@ import ru.aleksandrtrushchinskii.surfproject.ui.viewmodel.TodoViewModel
 
 class ViewModelFactory(
         private val auth: Authentication,
-        private val todoRepository: TodoRepository,
-        private val internet: Internet
+        private val todoRepository: TodoRepository
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>) = when (modelClass) {
         SearchViewModel::class.java -> SearchViewModel(todoRepository) as T
-        TodoViewModel::class.java -> TodoViewModel(auth, todoRepository, internet) as T
+        TodoViewModel::class.java -> TodoViewModel(auth, todoRepository) as T
         else -> throw RuntimeException("Unknown view model: $modelClass")
     }
 

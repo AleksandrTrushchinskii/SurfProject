@@ -135,7 +135,7 @@
 
         <Button
             android:id="@+id/todoNotificationClearButton"
-            android:layout_width="60dp"
+            android:layout_width="70dp"
             android:layout_height="30dp"
             android:layout_margin="0dp"
             android:background="@drawable/back"

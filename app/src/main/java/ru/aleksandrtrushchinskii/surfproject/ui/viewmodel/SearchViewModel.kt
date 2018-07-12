@@ -15,10 +15,14 @@ class SearchViewModel(private val repository: TodoRepository) : ViewModel() {
 
     fun load(callBack: (List<Todo>) -> Unit) = launch(UI) {
         if (!query.value.isNullOrEmpty()) {
-            callBack(repository.search("%${query.value}%").await())
+            repository.load(query.value!!, callBack)
         } else {
-            callBack(repository.load().await())
+            repository.load(callback = callBack)
         }
+    }
+
+    fun unregister() {
+        repository.loadListener?.remove()
     }
 
 }
